@@ -1,16 +1,16 @@
-import './style.css'
-import Phaser, { CANVAS } from 'phaser'
+import './style.css';
+import Phaser from 'phaser';
 
 const size = {
   width: 900,
   height: 600,
-}
+};
 
 const config = {
   type: Phaser.WEBGL,
   width: size.width,
   height: size.height,
-  canvas: gameCanvas,
-}
+  canvas: document.getElementById('gameCanvas'),
+};
 
-const game = new Phaser.Game(config)
+const game = new Phaser.Game(config);
