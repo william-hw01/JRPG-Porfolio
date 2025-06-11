@@ -1,0 +1,8 @@
+1. 
+git add .
+git commit -m " "
+git push origin main
+
+2.
+npm run build
+npm run deploy
