@@ -9,12 +9,12 @@ const size = {
 
 class GameScene extends Phaser.Scene {
   preload() {
-    this.load.image('spawnPT64', '/spawnPT64.png');
-    this.load.image('protagonist_64x64', '/protagonist_64x64.png');
-    this.load.json('playerStatus', '/playerStatus.json');
-    this.load.json('dialogue', '/dialogue.json');
-    this.load.image('spreadsheet', '/spreadsheet64x64.png');
-    this.load.tilemapTiledJSON('spawnMap', '/spawnPT64.json');
+    this.load.image('spawnPT64', '../public/spawnPT64.png');
+    this.load.image('protagonist_64x64', '../public/protagonist_64x64.png');
+    this.load.json('playerStatus', '../public/playerStatus.json');
+    this.load.json('dialogue', '../public/dialogue.json');
+    this.load.image('spreadsheet', '../public/spreadsheet64x64.png');
+    this.load.tilemapTiledJSON('spawnMap', '../public/spawnPT64.json');
   }
   create() {
     //key
