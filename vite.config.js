@@ -2,7 +2,7 @@ import { defineConfig } from 'vite'
 import { resolve } from 'path'
 
 export default defineConfig({
-  base: './', // Critical for GitHub Pages
+  base: './',
   build: {
     outDir: 'dist',
     rollupOptions: {
@@ -12,6 +12,6 @@ export default defineConfig({
     }
   },
   server: {
-    host: true // Allow external access
+    host: true 
   }
 })
