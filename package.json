@@ -15,6 +15,5 @@
   },
   "dependencies": {
     "phaser": "^3.90.0"
-  },
-  "homepage": "https://william-hw01.github.io/JRPG-Porfolio/"
+  }
 }
