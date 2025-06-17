@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'Monogram';
-  src: url('/monogram.ttf') format('truetype');
+  src: url('monogram.ttf') format('truetype');
 }
 
 *{
