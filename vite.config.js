@@ -2,7 +2,7 @@ import { defineConfig } from 'vite'
 import { resolve } from 'path'
 
 export default defineConfig({
-  base: './',
+  base: '/JRPG-Porfolio/',
   build: {
     outDir: 'dist',
     rollupOptions: {
