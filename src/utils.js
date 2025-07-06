@@ -64,3 +64,14 @@ export function displayDialogue(sentences, onDisplayEnd) {
     window.addEventListener('keydown', handleSpace);
     startTyping();
 }
+
+export function displayHint(hintText, isVisible) {
+    const hintUI = document.getElementById('hint-container');
+    const hint = document.getElementById('hint');
+    hintUI.style.display = isVisible ? 'block' : 'none';
+    if (isVisible) {
+        hint.innerHTML = hintText;
+    } else {
+        hint.innerHTML = '';
+    }
+}

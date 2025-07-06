@@ -73,3 +73,30 @@ main {
 }
 
 
+#hinttext {
+  position: absolute;
+  width: 30%;
+  left: 35%;
+  right: 50%;
+  bottom: 12%;
+  min-height: 10vh;
+  background-color: #5e5e5e96;
+  border-radius: 3px;
+  outline-style: solid;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  word-spacing: 0.2rem;
+  filter: drop-shadow(0 0 0.75rem #464646);
+  font-size: 3rem;
+  color: #f0f0f0;
+  z-index: 1000;
+}
+
+.hint-text {
+  margin: 0;
+  user-select: none;
+}
