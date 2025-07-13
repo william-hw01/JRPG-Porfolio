@@ -1,5 +1,10 @@
 {
     "intro": ["Welcome to my portfolio!", 
-    "Here you can find information about my projects, skills, and experiences. Feel free to explore and reach out if you have any questions."],
-    "PC":["This is my <a href='https://github.com/william-hw01?tab=repositories' target='_blank'>github</a>"]
+    "Feel free to explore and learn more about my work.",
+    "Press W/A/S/D to move UP/LEFT/DOWN/RIGHT."],
+    "PC": ["This is my <a href='https://github.com/william-hw01?tab=repositories' target='_blank'>github</a>",
+    "I save all my code here, you can also find the source code of this game here."],
+    "inDevelopment": ["This section is still under development, plz give me some time to finish it."],
+    "academic": ["I graduate from Higher Diploma Programme in Electronic and Information Engineering(HDEIE) at Hong Kong Polytechnic University",
+    "and now I am studying BEng in Computer Engineering program at The Hong Kong University of Science and Technology (HKUST)", "but more importantly, I am struggling to finish my FYT(〒︿〒)"]
 }

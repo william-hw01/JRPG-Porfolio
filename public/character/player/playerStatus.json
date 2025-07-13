@@ -3,5 +3,5 @@
     "playerHealth": 100,
     "playerAttack": 10,
     "playerDefense": 5,
-    "inDialog": false
+    "intro": true
 }

@@ -102,7 +102,7 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":768,
+                 "x":1024,
                  "y":512
                 }, 
                 {
@@ -148,6 +148,17 @@
                  "width":64,
                  "x":1024,
                  "y":192
+                }, 
+                {
+                 "height":256,
+                 "id":24,
+                 "name":"portfolioRM",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":64,
+                 "x":1152,
+                 "y":384
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -156,7 +167,7 @@
          "y":0
         }],
  "nextlayerid":7,
- "nextobjectid":24,
+ "nextobjectid":26,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.10.2",
