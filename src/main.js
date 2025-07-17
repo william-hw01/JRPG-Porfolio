@@ -49,6 +49,7 @@ class GameScene extends Phaser.Scene {
     const spawnRM = map.createLayer('spawnRM', tileset, -125, -80).setScale(0.75);
     const border = map.createLayer('border', tileset, -125, -80).setScale(0.75);  
     const decoration = map.createLayer('decoration', tileset, -125, -80).setScale(0.75);
+    const decoration_u = map.createLayer('decoration_u', tileset, -125, -80).setScale(0.75);
     const spawnPTObj = map.getObjectLayer('spawnPT').objects;
 
     // Player setup at spawnPT location from map
@@ -62,10 +63,10 @@ class GameScene extends Phaser.Scene {
       spawnY = spawnPoint ? spawnPoint.y * 0.75 - 80 : size.height / 2;
     }
     this.player = this.physics.add.image(spawnX, spawnY, 'protagonist_64x64')
-      .setScale(1)
-      .setDepth(1000)
-      .setSize(55, 70) // Scaled hitbox (65 * 1, 70 * 1)
-      .setOffset(5, 0); // Scaled offset (2 * 1)
+        .setScale(1)
+        .setDepth(1000)
+        .setSize(45, 65)
+        .setOffset(10, 0);
     this.player.setCollideWorldBounds(true);
 
     this.inDialogue = Pstatus.intro;
@@ -89,7 +90,7 @@ class GameScene extends Phaser.Scene {
       
       if (obj.name === 'PC') {
         // Add PC to its own group with collision
-        const hitbox = this.pcGroup.create(x + width / 2, y + height / 4, null)
+        const hitbox = this.pcGroup.create(x + width / 2, y + height/4, null)
           .setScale(4.51)
           .setData('type', obj.name)
           .setVisible(false)

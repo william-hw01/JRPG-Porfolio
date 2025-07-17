@@ -45,8 +45,8 @@ class portfolioRM extends Phaser.Scene {
         this.player = this.physics.add.image(spawnX, spawnY, 'protagonist_64x64')
         .setScale(1)
         .setDepth(1000)
-        .setSize(55, 70) // Scaled hitbox (65 * 1, 70 * 1)
-        .setOffset(5, 0); // Scaled offset (2 * 1)
+        .setSize(45, 65)
+        .setOffset(10, 0);
         this.player.setCollideWorldBounds(true);
 
         this.cursor = this.input.keyboard.createCursorKeys();
