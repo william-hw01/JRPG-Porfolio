@@ -75,3 +75,38 @@ export function displayHint(hintText, isVisible) {
         hint.innerHTML = '';
     }
 }
+
+export function playerMovement(scene, player, cursor, playerSpeed, multiplier = 1) {
+    player.setVelocity(0);
+    // Use scene.input.keyboard to check WASD keys globally
+    const keyboard = scene.input.keyboard;
+    const A = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+    const D = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+    const W = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+    const S = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+
+    if (cursor.left.isDown || A.isDown) {
+        if (player.anims.currentAnim?.key !== 'left_walk') {
+            player.anims.play('left_walk', true);
+        }
+        player.setVelocityX(-playerSpeed * multiplier);
+    } else if (cursor.right.isDown || D.isDown) {
+        if (player.anims.currentAnim?.key !== 'right_walk') {
+            player.anims.play('right_walk', true);
+        }
+        player.setVelocityX(playerSpeed * multiplier);
+    } else if (cursor.up.isDown || W.isDown) {
+        if (player.anims.currentAnim?.key !== 'back_walk') {
+            player.anims.play('back_walk', true);
+        }
+        player.setVelocityY(-playerSpeed * multiplier);
+    } else if (cursor.down.isDown || S.isDown) {
+        if (player.anims.currentAnim?.key !== 'front_walk') {
+            player.anims.play('front_walk', true);
+        }
+        player.setVelocityY(playerSpeed * multiplier);
+    } else {
+        player.anims.stop();
+        player.setTexture('protagonist_64x64');
+    }
+}

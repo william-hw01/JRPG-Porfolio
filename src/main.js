@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import './style.css'; 
-import { displayDialogue, displayHint } from './utils.js';
+import { displayDialogue, displayHint, playerMovement } from './utils.js';
 import portfolioRM from './portfolioRM.js';
 
 
@@ -19,11 +19,24 @@ class GameScene extends Phaser.Scene {
   }
   
   preload() {
+    //protagonist
     this.load.image('protagonist_64x64', 'character/player/protagonist_64x64.png');
+    this.load.image('protagonist_back_leftWalk','character/player/moveSet/protagonist_back_leftWalk.png');
+    this.load.image('protagonist_back_rightWalk','character/player/moveSet/protagonist_back_rightWalk.png');
+    this.load.image('protagonist_back','character/player/moveSet/protagonist_back.png');
+    this.load.image('protagonist_front_leftWalk','character/player/moveSet/protagonist_front_leftWalk.png');
+    this.load.image('protagonist_front_rightWalk','character/player/moveSet/protagonist_front_rightWalk.png');
+    this.load.image('protagonist_left_walk','character/player/moveSet/protagonist_left_walk.png');
+    this.load.image('protagonist_left','character/player/moveSet/protagonist_left.png');
+    this.load.image('protagonist_right_walk','character/player/moveSet/protagonist_right_walk.png');
+    this.load.image('protagonist_right','character/player/moveSet/protagonist_right.png');
+
+
     this.load.json('playerStatus', 'character/player/playerStatus.json');
     this.load.json('dialogue', 'character/player/dialogue.json');
     this.load.image('spreadsheet', 'spreadsheet64x64.png');
     this.load.tilemapTiledJSON('spawnMap', 'map/spawnPT/spawnPT64.json');
+    
   }
 
   create() {
@@ -35,13 +48,6 @@ class GameScene extends Phaser.Scene {
     const playerStatus = this.cache.json.get('playerStatus');
     this.registry.set('playerStatus', playerStatus);
     const Pstatus = this.registry.get('playerStatus');
-    // Key bindings
-    this.keys = {
-      W: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W),
-      A: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A),
-      S: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S),
-      D: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D)
-    };
 
     // Map setup
     const map = this.add.tilemap('spawnMap');
@@ -62,7 +68,7 @@ class GameScene extends Phaser.Scene {
       spawnX = spawnPoint ? spawnPoint.x * 0.75 - 125 : size.width / 2;
       spawnY = spawnPoint ? spawnPoint.y * 0.75 - 80 : size.height / 2;
     }
-    this.player = this.physics.add.image(spawnX, spawnY, 'protagonist_64x64')
+    this.player = this.physics.add.sprite(spawnX, spawnY, 'protagonist_64x64')
         .setScale(1)
         .setDepth(1000)
         .setSize(45, 65)
@@ -71,6 +77,47 @@ class GameScene extends Phaser.Scene {
 
     this.inDialogue = Pstatus.intro;
     this.cursor = this.input.keyboard.createCursorKeys();
+
+    this.anims.create({
+        key: 'right_walk',
+        frames: [
+            { key: 'protagonist_right_walk' },
+            { key: 'protagonist_right' },
+        ],
+        frameRate: 7,
+        repeat: -1
+    });
+
+    this.anims.create({
+        key: 'left_walk',
+        frames: [
+            { key: 'protagonist_left_walk' },
+            { key: 'protagonist_left' },
+        ],
+        frameRate: 7,
+        repeat: -1
+    });
+
+    this.anims.create({
+      key: 'back_walk',
+      frames: [
+          { key: 'protagonist_back_leftWalk' },
+          { key: 'protagonist_back' },
+          { key: 'protagonist_back_rightWalk' },
+      ],
+      frameRate: 7,
+      repeat: -1
+    });
+
+      this.anims.create({
+        key: 'front_walk',
+        frames: [
+            { key: 'protagonist_front_leftWalk' },
+            { key: 'protagonist_front_rightWalk' },
+        ],
+        frameRate: 7,
+        repeat: -1
+      });
 
     // Tilemap collisions
     this.physics.add.collider(this.player, border);
@@ -162,19 +209,11 @@ class GameScene extends Phaser.Scene {
 
   update() { 
     const Pstatus = this.registry.get('playerStatus');
-    this.player.setVelocity(0);
     
     if (!this.inDialogue) {
-      if (this.cursor.left.isDown || this.keys.A.isDown) {
-        this.player.setVelocityX(-Pstatus.playerSpeed * 0.75);
-      } else if (this.cursor.right.isDown || this.keys.D.isDown) {
-        this.player.setVelocityX(Pstatus.playerSpeed * 0.75);
-      }
-      if (this.cursor.up.isDown || this.keys.W.isDown) {
-        this.player.setVelocityY(-Pstatus.playerSpeed * 0.75);
-      } else if (this.cursor.down.isDown || this.keys.S.isDown) {
-        this.player.setVelocityY(Pstatus.playerSpeed * 0.75);
-      }
+      playerMovement(this, this.player, this.cursor, Pstatus.playerSpeed, 0.75);
+    } else {
+      this.player.setVelocity(0);
     }
 
     if (this.isHintVisible && !this.physics.world.overlap(this.player, this.currentHintObject)) {
