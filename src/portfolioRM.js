@@ -2,6 +2,8 @@ import Phaser from 'phaser';
 import { displayDialogue, displayHint, playerMovement } from './utils.js';
 import GameScene from './main.js';
 
+const now = new Date();
+
 class portfolioRM extends Phaser.Scene {
     constructor() {
         super({ key: 'portfolioRM' });
@@ -42,7 +44,7 @@ class portfolioRM extends Phaser.Scene {
         const border = map.createLayer('border', tileset, -125, -80).setScale(0.75);  
         const decoration = map.createLayer('decoration', tileset, -125, -80).setScale(0.75);
         const RMobj = map.getObjectLayer('obj').objects;
-
+        const Pstatus = this.registry.get('playerStatus');
         // Player setup at spawnPT location from map
         const spawnPoint = RMobj.find(obj => obj.name === 'spawnPT');
         const spawnX = spawnPoint ? spawnPoint.x * 0.75 - 125 : size.width / 2;
@@ -53,9 +55,29 @@ class portfolioRM extends Phaser.Scene {
         .setSize(45, 65)
         .setOffset(10, 0);
         this.player.setCollideWorldBounds(true);
-
-
-
+        this.player.setInteractive();
+        this.player.on('pointerdown', (pointer) => {
+        if(Pstatus.clickCount >= 49 && !this.inDialogue) {
+            this.player.setTexture('protagonist_angry');
+            this.inDialogue = true;
+            displayDialogue(this.cache.json.get('dialogue').delete, () => {
+            Pstatus.clickCount = 0;
+            this.registry.set('playerStatus', Pstatus);
+            this.player.destroy();
+            this.player = null;
+            });
+        }
+        if(!this.inDialogue) {
+            this.player.setTexture('protagonist_hurt');
+            Pstatus.clickCount++;
+            this.inDialogue = true;
+            displayDialogue(["*ouch*"], () => {
+            this.inDialogue = false;
+            this.player.setTexture('protagonist_64x64');
+            });
+            //console.log('Player clicked! Count:', Pstatus.clickCount);
+        }
+        });
         this.anims.create({
             key: 'right_walk',
             frames: [
@@ -204,6 +226,15 @@ class portfolioRM extends Phaser.Scene {
             }
         }, null, this);
 
+        if(now.getHours() > 6 && now.getHours() < 18) {
+            document.body.style.backgroundColor = "#b0e2ff"; 
+        }
+        else if(now.getHours() >=18 && now.getHours() <= 19) {
+            document.body.style.backgroundColor = "#d85f3aff"; 
+        }
+        else{
+            document.body.style.backgroundColor = "#070058ff";
+        }
 
     }
 

@@ -3,7 +3,7 @@ import './style.css';
 import { displayDialogue, displayHint, playerMovement } from './utils.js';
 import portfolioRM from './portfolioRM.js';
 
-
+const now = new Date();
 const size = {
   width: 900,
   height: 600,
@@ -21,6 +21,8 @@ class GameScene extends Phaser.Scene {
   preload() {
     //protagonist
     this.load.image('protagonist_64x64', 'character/player/protagonist_64x64.png');
+    this.load.image('protagonist_hurt','character/player/protagonist_hurt.png');
+    this.load.image('protagonist_angry','character/player/protagonist_angry.png');
     this.load.image('protagonist_back_leftWalk','character/player/moveSet/protagonist_back_leftWalk.png');
     this.load.image('protagonist_back_rightWalk','character/player/moveSet/protagonist_back_rightWalk.png');
     this.load.image('protagonist_back','character/player/moveSet/protagonist_back.png');
@@ -74,6 +76,30 @@ class GameScene extends Phaser.Scene {
         .setSize(45, 65)
         .setOffset(10, 0);
     this.player.setCollideWorldBounds(true);
+    this.player.setInteractive();
+    this.player.on('pointerdown', (pointer) => {
+      if(Pstatus.clickCount >= 49 && !this.inDialogue) {
+        this.player.setTexture('protagonist_angry');
+        this.inDialogue = true;
+        displayDialogue(this.cache.json.get('dialogue').delete, () => {
+          Pstatus.clickCount = 0;
+          this.registry.set('playerStatus', Pstatus);
+          this.player.destroy();
+          this.player = null;
+        });
+      }
+      if(!this.inDialogue) {
+        this.player.setTexture('protagonist_hurt');
+        Pstatus.clickCount++;
+        this.inDialogue = true;
+        displayDialogue(["*ouch*"], () => {
+          this.inDialogue = false;
+          this.player.setTexture('protagonist_64x64');
+        });
+        //console.log('Player clicked! Count:', Pstatus.clickCount);
+
+      }
+    });
 
     this.inDialogue = Pstatus.intro;
     this.cursor = this.input.keyboard.createCursorKeys();
@@ -176,7 +202,7 @@ class GameScene extends Phaser.Scene {
 
     this.physics.add.collider(this.player, this.portfolioRM, (player, obj) => {
       if (!this.pcCooldown && !this.inDialogue && obj.getData('type') === 'portfolioRM') {
-        console.log('portfolioRM collision detected');
+        //console.log('portfolioRM collision detected');
         //displayHint("github info", false);
         this.onPortfolioRMCollision();
       }
@@ -204,12 +230,21 @@ class GameScene extends Phaser.Scene {
       });
     }
 
+    if(now.getHours() > 6 && now.getHours() < 18) {
+      document.body.style.backgroundColor = "#b0e2ff"; 
+    }
+    else if(now.getHours() >=18 && now.getHours() <= 19) {
+      document.body.style.backgroundColor = "#d85f3aff"; 
+    }
+    else{
+      document.body.style.backgroundColor = "#070058ff";
+    }
 
   }
 
   update() { 
     const Pstatus = this.registry.get('playerStatus');
-    
+
     if (!this.inDialogue) {
       playerMovement(this, this.player, this.cursor, Pstatus.playerSpeed, 0.75);
     } else {
@@ -254,7 +289,7 @@ const config = {
   height: size.height,
   canvas: document.getElementById('gameCanvas'),
   transparent: true,
-  backgroundColor: '#FFFFFF',
+  backgroundColor: '#ffffff',
   scene: [GameScene, portfolioRM],
   physics: { 
     default: 'arcade',
